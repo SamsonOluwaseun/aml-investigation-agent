@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data (generated, never committed)
+*.db
+incoming/
+processed/
+cases/
+usage/*.jsonl
+tools/audit.jsonl
