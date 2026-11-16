@@ -73,10 +73,10 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 8. Daily pipeline
 **Owner:** Claude Code · **Folder:** `pipeline/` · **Design:** How this maps to production
 
-- [ ] `pipeline/run_daily.py` validates, loads, runs rules, creates or updates alerts, runs the agent and writes a summary
-- [ ] Rejects the whole batch on a failed check
-- [ ] Moves processed files to `processed/`
-- [ ] Stops calling the agent when a daily token budget is reached
+- [x] `pipeline/run_daily.py` validates, loads, runs rules, creates or updates alerts, runs the agent and writes a summary
+- [x] Rejects the whole batch on a failed check
+- [x] Moves processed files to `processed/`
+- [x] Stops calling the agent when a daily token budget is reached
 
 ## Phase 3: Human review and measurement
 
