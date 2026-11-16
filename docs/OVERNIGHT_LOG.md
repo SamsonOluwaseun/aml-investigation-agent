@@ -2,7 +2,55 @@
 
 ## Summary
 
-_In progress. Final summary is written here when the run finishes or stops._
+**Finished.** Items 1 to 10 are built, reviewed and merged into `develop`. Item 11 was not started, as you asked. `main` is untouched (`9bacbb5`). The full suite passes on a clean `develop` checkout with no generated data: **105 tests passed**.
+
+### Items completed
+
+| Item | Owner (who actually did it) | Issue | Branch | Merged into develop | Review rounds |
+| --- | --- | --- | --- | --- | --- |
+| 1. Fake bank generator | Codex | [#2](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/2) | `issue-2-fake-bank` | `7a73d09` | 2 |
+| 2. Daily batch files | Codex | [#3](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/3) | `issue-3-daily-batch` | `1883a3e` | 0 |
+| 3. Typology rules | Codex | [#4](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/4) | `issue-4-typology-rules` | `81c1155` | 0 |
+| 4. Rule tests | Codex | [#5](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/5) | `issue-5-rule-tests` | `18ffdd2` | 1 |
+| 5. Bank tools (MCP server) | Claude Code | [#6](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/6) | `issue-6-bank-tools` | `57e5239` | – |
+| 6. Investigation skill and subagents | Claude Code | [#7](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/7) | `issue-7-investigate-skill` | `76b9d64` | – (one criterion left for you) |
+| 7. Usage logging hooks | Claude Code | [#8](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/8) | `issue-8-usage-hooks` | `f99fab2` | – |
+| 8. Daily pipeline | Claude Code | [#9](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/9) | `issue-9-daily-pipeline` | `4a5c725` | – |
+| 9. Investigator review screen | **Antigravity** (headless `agy` CLI) | [#10](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/10) | `issue-10-review-screen`, `issue-10-review-screen-fix` | `0c96fb9`, `0c93e07` | 2 |
+| 10. Evaluation scorecard | Codex | [#11](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/11) | `issue-11-scorecard` | `97a1e81` | 1 |
+
+### Pull requests
+
+**None were opened**, because the `gh` account on this machine (`SamlyticsDS`) has read-only access to the repo. Every branch was pushed, then merged locally with `--no-ff`, and **each merge commit message is that item's pull request description**, listing every criterion and how it was met. Run `git log --merges develop` to read them. All branches are still on GitHub if you want real PRs for the record. See the first decision below.
+
+### Left open
+
+- **Item 6, interactive run not verified.** The headless runs work. Please run `/investigate C-001` once in an interactive Claude Code session (venv active, approve the `aml-bank` tools) and tick the last box in `docs/BUILD_PLAN.md`.
+- **Issues #2 to #11 are still open.** `SamlyticsDS` cannot close them.
+- **Item 11** is yours: README setup steps, sample outputs, demo GIF, CONTRIBUTING.md and topics.
+
+### Decisions for you to check
+
+Listed in full in the next section. The ones most worth a look:
+1. Merging locally because no PRs could be opened, and how to fix the `gh` account.
+2. Codex's sandbox can't commit, so Claude Code commits Codex's work under `Codex:` messages. Antigravity's headless mode can't run commands, so Claude Code ran its tests.
+3. The agent test budget was 3 cases in total: C-001 (planted), C-016 (look-alike) and C-019 (daily pipeline).
+4. The daily batch files use the bank's IDs, not the illustrative IDs in `data/sample/`.
+
+### Results worth knowing
+
+- Rules on a fresh bank: 15/15 planted cases alerted with the right typology, all High. 0/12 look-alikes High. 0 ordinary customers alerted.
+- Agent: C-001 (planted sanctions case) was rated **High, Escalate**. C-016 (a cash-business look-alike) was rated **Medium, Request more information**, reasoning from its long history and declared income. C-019 (the daily demo pattern) was rated **Medium, Request more information**. 121 of 121 cited IDs exist.
+- Tokens per case: about 173k to 179k (API-equivalent), around 140 seconds per case. Handoff amplification is 1.72 to 1.75 (subagents add about 75% on top of the main run).
+- `eval/scorecard.md` is committed, generated from those three runs. Catch rate and typology are marked *partial*, because only 1 of 15 planted cases was investigated.
+
+### What to do next
+
+1. Fix GitHub access (add `SamlyticsDS` as a collaborator, or `gh auth login` as `SamsonOluwaseun`). Then open a PR `develop → main` when you're happy, and close issues #2 to #11.
+2. Do the interactive `/investigate C-001` check (item 6).
+3. If you want a full scorecard, run all 19 alerts: `python pipeline/run_daily.py` handles new alerts only, so loop `claude -p "/investigate C-0NN"` (the README in `agent/` has the exact flags). Expect about 175k tokens per case.
+4. Start item 11. The three case files and usage rows from tonight are copies outside the repo, because `cases/` and `usage/*.jsonl` are git-ignored. Regenerate them with the steps in `pipeline/README.md`, or tell me to add sample copies under `docs/samples/`.
+5. Clean-up when you're done: the extra worktrees next to the repo (`aml-develop`, `aml-work`, `aml-ui`, `aml-eval`) and the local `wip-tools` branch can be removed with `git worktree remove <path>` and `git branch -D wip-tools`.
 
 ## Decisions for Oluwaseun
 
@@ -62,4 +110,16 @@ _In progress. Final summary is written here when the run finishes or stops._
 - Owner: Claude Code. Branch `issue-9-daily-pipeline`, merged as `4a5c725`.
 - Agent case 3 of 3: three daily batches with the agent on and `--max-cases 1`. Days 1 and 2 had no new alerts. Day 3 raised C-019 (the demo structuring customer), which was investigated and saved (Medium, Request more information). The budget counter read 172,759 tokens, exactly the four hook rows.
 - Finding: the agent flagged deposits dated 17 and 18 November as "after the pack was prepared", because the demo batch dates were later than the real date. For demos, use batch dates on or before the day you run them.
-- My mistake: clearing `cases/` before this run deleted the C-016 case file. I recreated it byte for byte from the run output (it validates, and all 25 cited transactions exist). Copies of all three case files and the usage logs are kept outside the repo.
+- My mistake: clearing `cases/` before this run deleted the C-016 case file.
+
+### Item 10: Evaluation scorecard, issue #11, merged (before item 9)
+- Owner: Codex. Branch `issue-11-scorecard`, merged as `97a1e81`. It ran in parallel with item 9 in its own worktree and merged first, because the two don't depend on each other.
+- Review round 1: the token mean counted cases without usage as 0; the per-case lines were split and showed a "right typology" for look-alikes; the output wasn't real Markdown; the Met column said "partial" for record-only measures.
+- `eval/scorecard.md` was generated from the three real runs. 5 tests.
+
+### Item 9: Investigator review screen, issue #10, merged
+- Owner: **Antigravity**, run headless with `agy -p`. The brief was passed as a file, because PowerShell split long quoted prompts. `--mode auto` is not available on this account, and headless mode auto-denies commands, so Antigravity wrote the code and I ran every test and check.
+- Review round 1: `streamlit run ui/app.py` crashed on `from ui.data import`, because only `ui/` is on the import path (reproduced in an isolated interpreter). It was fixed with a regression test. The success message now shows the stored time.
+- Review round 2 (after merge): one test needed the real `bank/bank.db`, so it failed on a clean clone. It's now self-contained and merged as `0c93e07`.
+- Verified in Streamlit's AppTest: the decision radio has no default; saving without a reason is refused; a saved row has the person, UTC time and suggested action; clicking `T-0054092` opens the transaction.
+- Decision: I did not use `--dangerously-skip-permissions` to let Antigravity run commands. It would have approved every tool with no limit. I recreated it byte for byte from the run output (it validates, and all 25 cited transactions exist). Copies of all three case files and the usage logs are kept outside the repo.
