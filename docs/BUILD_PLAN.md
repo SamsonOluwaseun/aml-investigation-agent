@@ -65,10 +65,10 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 7. Usage logging hooks
 **Owner:** Claude Code · **Folder:** `usage/`, `.claude/settings.json` · **Design:** Step 7
 
-- [ ] `PostToolUse` hook on the bank tools records session to case mapping
-- [ ] `SubagentStop` and `Stop` hooks read the transcript and sum tokens
-- [ ] One row per run in `usage/usage.jsonl` with the columns in Step 7
-- [ ] Parent run recorded so subagent runs link to the main run
+- [x] `PostToolUse` hook on the bank tools records session to case mapping
+- [x] `SubagentStop` and `Stop` hooks read the transcript and sum tokens
+- [x] One row per run in `usage/usage.jsonl` with the columns in Step 7
+- [x] Parent run recorded so subagent runs link to the main run
 
 ### 8. Daily pipeline
 **Owner:** Claude Code · **Folder:** `pipeline/` · **Design:** How this maps to production
