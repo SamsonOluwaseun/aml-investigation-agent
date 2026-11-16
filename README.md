@@ -37,7 +37,7 @@ Early build. The plan is in [docs/DESIGN.md](docs/DESIGN.md) and the task list i
 | Investigation agent | `agent/`, `.claude/` | Done (item 6). Headless verified, interactive run to check |
 | Investigator review screen | `ui/` | Not started |
 | Usage logging | `usage/` | Done (item 7) |
-| Daily batch pipeline | `pipeline/` | Not started |
+| Daily batch pipeline | `pipeline/` | Done (item 8) |
 | Evaluation scorecard | `eval/` | Not started |
 
 ## Requirements
