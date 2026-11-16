@@ -452,9 +452,64 @@ def test_no_file_in_ui_mentions_answer_key():
     assert offenders == [], f"Files in ui/ mention answer key: {offenders}"
 
 
-def test_app_decision_radio_has_no_default():
+def test_app_decision_radio_has_no_default(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Verify that the investigator decision radio button in ui/app.py starts with no default selection."""
     from streamlit.testing.v1 import AppTest
+
+    # Set up isolated temporary database, cases directory, and usage log
+    db_path = tmp_path / "bank.db"
+    cases_dir = tmp_path / "cases"
+    cases_dir.mkdir()
+    usage_path = tmp_path / "usage.jsonl"
+    usage_path.write_text("", encoding="utf-8")
+
+    create_test_db(db_path)
+
+    # Insert an open alert so the app queue renders the case review view
+    with closing(sqlite3.connect(str(db_path))) as conn:
+        with conn:
+            conn.execute(
+                """
+                INSERT INTO alerts (case_id, customer_id, score, typologies, hits, status,
+                                    window_start, window_end, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    "C-001",
+                    "CU-0001",
+                    0.95,
+                    '["structuring"]',
+                    "[]",
+                    "open",
+                    "2026-09-01",
+                    "2026-10-01",
+                    "2026-10-01",
+                    "2026-10-01",
+                ),
+            )
+
+    # Write a test case file
+    case_data = {
+        "case_id": "C-001",
+        "customer_id": "CU-0001",
+        "risk_rating": "High",
+        "summary": "Sample case summary for AppTest.",
+        "suggested_action": "Escalate",
+        "evidence": [
+            {
+                "claim": "Customer executed rapid transfer.",
+                "source": ["T-1001"],
+            }
+        ],
+        "innocent_explanations": ["Routine business expense"],
+        "gaps": ["No tax declaration on file"],
+    }
+    (cases_dir / "C-001.json").write_text(json.dumps(case_data), encoding="utf-8")
+
+    # Point the app at the temporary paths via environment variables
+    monkeypatch.setenv("AML_BANK_DB", str(db_path))
+    monkeypatch.setenv("AML_CASES_DIR", str(cases_dir))
+    monkeypatch.setenv("AML_USAGE_LOG", str(usage_path))
 
     app_path = Path(__file__).resolve().parents[1] / "app.py"
     at = AppTest.from_file(str(app_path))
