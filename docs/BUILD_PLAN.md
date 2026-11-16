@@ -27,11 +27,11 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 3. Typology rules
 **Owner:** Codex · **Folder:** `rules/` · **Design:** Step 3
 
-- [ ] One function per typology: structuring, rapid pass-through, fan-in/fan-out, high-risk link
-- [ ] Each returns hits with `customer_id`, `typology`, `score`, `txn_ids`
-- [ ] `rules/run_rules.py` writes one alert per customer to an `alerts` table, with a `case_id`
-- [ ] Thresholds in one config file, labelled as demo values
-- [ ] Rules run over a rolling 30-day window
+- [x] One function per typology: structuring, rapid pass-through, fan-in/fan-out, high-risk link
+- [x] Each returns hits with `customer_id`, `typology`, `score`, `txn_ids`
+- [x] `rules/run_rules.py` writes one alert per customer to an `alerts` table, with a `case_id`
+- [x] Thresholds in one config file, labelled as demo values
+- [x] Rules run over a rolling 30-day window
 
 ### 4. Rule tests
 **Owner:** Codex · **Folder:** `rules/tests/` · **Design:** Step 3
