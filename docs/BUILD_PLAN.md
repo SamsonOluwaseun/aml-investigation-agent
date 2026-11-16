@@ -20,9 +20,9 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 2. Daily batch files
 **Owner:** Codex · **Folder:** `bank/` · **Design:** How this maps to production
 
-- [ ] `bank/generate.py --day YYYY-MM-DD` writes `incoming/transactions_<date>.csv` plus a `.control.json` (row count, total amount)
-- [ ] Same columns as `data/sample/transactions_2026-11-16.csv`
-- [ ] Running three consecutive days shows a planted pattern building up
+- [x] `bank/generate.py --day YYYY-MM-DD` writes `incoming/transactions_<date>.csv` plus a `.control.json` (row count, total amount)
+- [x] Same columns as `data/sample/transactions_2026-11-16.csv`
+- [x] Running three consecutive days shows a planted pattern building up
 
 ### 3. Typology rules
 **Owner:** Codex · **Folder:** `rules/` · **Design:** Step 3
