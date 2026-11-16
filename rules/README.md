@@ -64,3 +64,14 @@ Remove-Item -LiteralPath rules\.pytest_tmp -Recurse -Force
 
 Tests use small hand-built databases for date boundaries, history comparisons,
 exact screening names, normal bills, deterministic case IDs and idempotent updates.
+Generated-bank acceptance tests also check all 15 suspicious planted cases,
+look-alike and ordinary-customer false alarms, full-row rerun determinism, and
+structuring emerging across three daily batches. The 12 innocent planted cases
+each have a test recording whether they alert and their score band; any High
+result must fit the aggregate limit of three. The suspicious-case test collects
+exactly 15 cases, with no skips. Collection discovers both groups using a
+temporary generated bank that is cleaned up immediately. Test databases and
+batch files use pytest temporary paths.
+The answer key is read only by the explicitly authorised acceptance tests;
+a source guard prevents production rules from mentioning it. Add `-s` to the
+pytest command to display how many look-alikes alert at all and score High.
