@@ -35,7 +35,7 @@ Early build. The plan is in [docs/DESIGN.md](docs/DESIGN.md) and the task list i
 | Typology rules | `rules/` | Done: rules and answer-key tests (items 3 and 4) |
 | Bank tools (MCP server) | `tools/` | Done (item 5) |
 | Investigation agent | `agent/`, `.claude/` | Done (item 6). Headless verified, interactive run to check |
-| Investigator review screen | `ui/` | Not started |
+| Investigator review screen | `ui/` | Done (item 9) |
 | Usage logging | `usage/` | Done (item 7) |
 | Daily batch pipeline | `pipeline/` | Done (item 8) |
 | Evaluation scorecard | `eval/` | Done (item 10). Sample in `eval/scorecard.md` |
