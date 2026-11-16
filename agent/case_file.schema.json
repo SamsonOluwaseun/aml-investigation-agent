@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SamsonOluwaseun/aml-investigation-agent/agent/case_file.schema.json",
+  "title": "AML case file",
+  "description": "One draft case file per alert, written by the investigation agent for a human investigator. Matches DESIGN.md Step 5.",
+  "type": "object",
+  "required": [
+    "case_id",
+    "customer_id",
+    "risk_rating",
+    "typologies",
+    "summary",
+    "evidence",
+    "innocent_explanations",
+    "gaps",
+    "suggested_action",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^C-\\d{3,}$"},
+    "customer_id": {"type": "string", "pattern": "^CU-\\d{4}$"},
+    "risk_rating": {"type": "string", "enum": ["High", "Medium", "Low"]},
+    "typologies": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["structuring", "rapid_pass_through", "fan_in_fan_out", "high_risk_link"]}
+    },
+    "summary": {"type": "string", "minLength": 1, "maxLength": 800},
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "required": ["claim", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "claim": {"type": "string", "minLength": 1, "maxLength": 400},
+          "source": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "innocent_explanations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "gaps": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "suggested_action": {"type": "string", "enum": ["Escalate", "Request more information", "Dismiss"]},
+    "status": {"const": "Draft for human review"},
+    "saved_at": {"type": "string"}
+  }
+}
