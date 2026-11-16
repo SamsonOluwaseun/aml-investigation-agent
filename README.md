@@ -33,7 +33,7 @@ Early build. The plan is in [docs/DESIGN.md](docs/DESIGN.md) and the task list i
 | --- | --- | --- |
 | Fake bank generator | `bank/` | Done: generator and daily batch files (items 1 and 2) |
 | Typology rules | `rules/` | Done: rules and answer-key tests (items 3 and 4) |
-| Bank tools (MCP server) | `tools/` | Not started |
+| Bank tools (MCP server) | `tools/` | Done (item 5) |
 | Investigation agent | `agent/`, `.claude/` | Not started |
 | Investigator review screen | `ui/` | Not started |
 | Usage logging | `usage/` | Not started |
