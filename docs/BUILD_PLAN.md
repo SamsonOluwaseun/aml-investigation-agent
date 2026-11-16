@@ -55,12 +55,12 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 6. Investigation skill and subagents
 **Owner:** Claude Code · **Folder:** `.claude/`, `agent/` · **Design:** Step 5
 
-- [ ] `.claude/skills/investigate/SKILL.md` runs the three subagents in order
-- [ ] `.claude/agents/evidence-gatherer.md`, `typology-analyst.md`, `case-writer.md`
-- [ ] `agent/case_file.schema.json` matches the case file in Step 5
-- [ ] Output validated against the schema before saving
-- [ ] Claims without a source ID are dropped
-- [ ] Works interactively on one case, then headless with `claude -p`
+- [x] `.claude/skills/investigate/SKILL.md` runs the three subagents in order
+- [x] `.claude/agents/evidence-gatherer.md`, `typology-analyst.md`, `case-writer.md`
+- [x] `agent/case_file.schema.json` matches the case file in Step 5
+- [x] Output validated against the schema before saving
+- [x] Claims without a source ID are dropped
+- [ ] Works interactively on one case, then headless with `claude -p` (headless verified on C-001 and C-016; the interactive run is left for Oluwaseun)
 
 ### 7. Usage logging hooks
 **Owner:** Claude Code · **Folder:** `usage/`, `.claude/settings.json` · **Design:** Step 7
