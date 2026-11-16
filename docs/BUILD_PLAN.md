@@ -83,11 +83,11 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 9. Investigator review screen
 **Owner:** Antigravity · **Folder:** `ui/` · **Design:** Step 6
 
-- [ ] Queue sorted by risk rating then score, showing typology and token cost
-- [ ] Case view with clickable source IDs that open the transactions
-- [ ] Decision buttons (Escalate, Request more information, Dismiss) with a required reason
-- [ ] Suggested action shown but not preselected
-- [ ] Decisions saved to a `decisions` table with person and time
+- [x] Queue sorted by risk rating then score, showing typology and token cost
+- [x] Case view with clickable source IDs that open the transactions
+- [x] Decision buttons (Escalate, Request more information, Dismiss) with a required reason
+- [x] Suggested action shown but not preselected
+- [x] Decisions saved to a `decisions` table with person and time
 
 ### 10. Evaluation scorecard
 **Owner:** Codex · **Folder:** `eval/` · **Design:** Step 8
