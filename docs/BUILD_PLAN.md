@@ -36,9 +36,9 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 4. Rule tests
 **Owner:** Codex · **Folder:** `rules/tests/` · **Design:** Step 3
 
-- [ ] Every planted case raises an alert
-- [ ] Most look-alikes do not raise a High score
-- [ ] `pytest` passes with no model and no network
+- [x] Every planted case raises an alert
+- [x] Most look-alikes do not raise a High score
+- [x] `pytest` passes with no model and no network
 
 ## Phase 2: The agent
 
