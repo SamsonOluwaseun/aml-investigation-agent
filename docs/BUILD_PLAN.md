@@ -45,12 +45,12 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 5. Bank tools (MCP server)
 **Owner:** Claude Code · **Folder:** `tools/` · **Design:** Step 4
 
-- [ ] `tools/server.py` exposes the eight tools in Step 4 using the MCP Python SDK
-- [ ] Every tool takes `case_id` first and writes a line to `tools/audit.jsonl`
-- [ ] Read-only except `save_case_file`
-- [ ] `planted_cases` is never reachable through any tool
-- [ ] Results capped (for example 200 transactions per call)
-- [ ] Registered in `.mcp.json` at the repo root
+- [x] `tools/server.py` exposes the eight tools in Step 4 using the MCP Python SDK
+- [x] Every tool takes `case_id` first and writes a line to `tools/audit.jsonl`
+- [x] Read-only except `save_case_file`
+- [x] `planted_cases` is never reachable through any tool
+- [x] Results capped (for example 200 transactions per call)
+- [x] Registered in `.mcp.json` at the repo root
 
 ### 6. Investigation skill and subagents
 **Owner:** Claude Code · **Folder:** `.claude/`, `agent/` · **Design:** Step 5
