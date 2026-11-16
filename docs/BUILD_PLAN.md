@@ -9,13 +9,13 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 1. Fake bank generator
 **Owner:** Codex · **Folder:** `bank/` · **Design:** Step 2
 
-- [ ] `bank/generate.py` creates `bank/bank.db` with the seven tables in Step 2
-- [ ] Fixed random seed: two runs produce identical databases
-- [ ] About 500 customers, 6 months of normal transactions
-- [ ] 15 planted cases across the four typologies, recorded in `planted_cases`
-- [ ] 10 to 15 innocent look-alikes, also recorded so the scorecard can count false alarms
-- [ ] Prints a summary: customers, accounts, transactions, planted cases
-- [ ] All names obviously fake
+- [x] `bank/generate.py` creates `bank/bank.db` with the seven tables in Step 2
+- [x] Fixed random seed: two runs produce identical databases
+- [x] About 500 customers, 6 months of normal transactions
+- [x] 15 planted cases across the four typologies, recorded in `planted_cases`
+- [x] 10 to 15 innocent look-alikes, also recorded so the scorecard can count false alarms
+- [x] Prints a summary: customers, accounts, transactions, planted cases
+- [x] All names obviously fake
 
 ### 2. Daily batch files
 **Owner:** Codex · **Folder:** `bank/` · **Design:** How this maps to production
