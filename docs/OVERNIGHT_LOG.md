@@ -48,3 +48,18 @@ _In progress. Final summary is written here when the run finishes or stops._
 - Owner: Claude Code. Branch `issue-6-bank-tools`, merged as `57e5239`.
 - Built on mcp 2.3.0 (`MCPServer`). Eight case-scoped tools with a read-only DB connection, result caps, audit lines and no route to the answer key. 13 tests.
 - Live check (agent case 1 of 3): headless `/investigate C-001` on the work branch. 14 audited tool calls, saved a valid case file (High, Escalate, 9 cited claims, none dropped), 140 seconds. Usage: top-level run 102k tokens, subagents 45k / 14k / 17k, handoff amplification 1.75.
+
+### Item 6: Investigation skill and subagents, issue #7, merged (one criterion left for you)
+- Owner: Claude Code. Branch `issue-7-investigate-skill`, merged as `76b9d64`.
+- Agent case 2 of 3: headless `/investigate C-016`, a structuring look-alike (a declared cash market business). Result: **Medium, Request more information**, 8/8 claims kept. The reasoning weighed 51 historical deposits and the declared income. The main agent also caught an unsupported figure from the analyst and removed it. So the agent can tell innocent activity from suspicious, not just confirm it.
+- **Not verified: the interactive run.** Nobody was at the keyboard, so the criterion "Works interactively on one case" is left unticked. To check: open the repo in Claude Code with the venv active, run `/investigate C-001` and approve the bank tools.
+
+### Item 7: Usage logging hooks, issue #8, merged
+- Owner: Claude Code. Branch `issue-8-usage-hooks`, merged as `f99fab2`.
+- Verified against the real payloads from Claude Code 2.1.325 (captured with `AML_HOOK_DEBUG=1`). Subagent tool calls carry `agent_id` and `agent_type`, and `SubagentStop` gives `agent_transcript_path`. The top-level row matched the CLI's own reported usage exactly.
+
+### Item 8: Daily pipeline, issue #9, merged
+- Owner: Claude Code. Branch `issue-9-daily-pipeline`, merged as `4a5c725`.
+- Agent case 3 of 3: three daily batches with the agent on and `--max-cases 1`. Days 1 and 2 had no new alerts. Day 3 raised C-019 (the demo structuring customer), which was investigated and saved (Medium, Request more information). The budget counter read 172,759 tokens, exactly the four hook rows.
+- Finding: the agent flagged deposits dated 17 and 18 November as "after the pack was prepared", because the demo batch dates were later than the real date. For demos, use batch dates on or before the day you run them.
+- My mistake: clearing `cases/` before this run deleted the C-016 case file. I recreated it byte for byte from the run output (it validates, and all 25 cited transactions exist). Copies of all three case files and the usage logs are kept outside the repo.
