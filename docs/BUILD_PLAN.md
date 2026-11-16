@@ -92,9 +92,9 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 10. Evaluation scorecard
 **Owner:** Codex · **Folder:** `eval/` · **Design:** Step 8
 
-- [ ] `eval/score.py` prints the six measures in Step 8
-- [ ] Reads case files, the answer key and the usage log
-- [ ] Writes `eval/scorecard.md` for committing as sample output
+- [x] `eval/score.py` prints the six measures in Step 8
+- [x] Reads case files, the answer key and the usage log
+- [x] Writes `eval/scorecard.md` for committing as sample output
 
 ## Phase 4: Share it
 

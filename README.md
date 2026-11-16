@@ -38,7 +38,7 @@ Early build. The plan is in [docs/DESIGN.md](docs/DESIGN.md) and the task list i
 | Investigator review screen | `ui/` | Not started |
 | Usage logging | `usage/` | Done (item 7) |
 | Daily batch pipeline | `pipeline/` | Done (item 8) |
-| Evaluation scorecard | `eval/` | Not started |
+| Evaluation scorecard | `eval/` | Done (item 10). Sample in `eval/scorecard.md` |
 
 ## Requirements
 
