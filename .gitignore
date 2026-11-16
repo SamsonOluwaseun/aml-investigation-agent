@@ -226,3 +226,4 @@ processed/
 cases/
 usage/*.jsonl
 tools/audit.jsonl
+usage/.state/

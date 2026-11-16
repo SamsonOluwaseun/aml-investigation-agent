@@ -36,7 +36,7 @@ Early build. The plan is in [docs/DESIGN.md](docs/DESIGN.md) and the task list i
 | Bank tools (MCP server) | `tools/` | Done (item 5) |
 | Investigation agent | `agent/`, `.claude/` | Done (item 6). Headless verified, interactive run to check |
 | Investigator review screen | `ui/` | Not started |
-| Usage logging | `usage/` | Not started |
+| Usage logging | `usage/` | Done (item 7) |
 | Daily batch pipeline | `pipeline/` | Not started |
 | Evaluation scorecard | `eval/` | Not started |
 
