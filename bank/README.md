@@ -9,8 +9,39 @@ python bank/generate.py
 ```
 
 This replaces `bank/bank.db` regardless of the working directory. The root
-`.gitignore` excludes `*.db`; do not commit the database. Daily batch export
-(`--day`) belongs to build plan item 2 and is not implemented yet.
+`.gitignore` excludes `*.db`; do not commit the database.
+
+Export daily files after generating the bank:
+
+```sh
+python bank/generate.py --day 2026-11-16
+python bank/generate.py --day 2026-11-17
+python bank/generate.py --day 2026-11-18
+```
+
+Each command creates `incoming/` if needed and writes `transactions_<date>.csv`
+and `transactions_<date>.control.json`. Use `--out <directory>` to select another
+output directory. The control contains `batch_date`, `file`, `row_count`, and
+`total_amount_gbp`, summed in pennies. CSV columns match the sample header:
+`txn_id,account_id,customer_id,timestamp,direction,amount_gbp,channel,counterparty_account,counterparty_country,reference`.
+Identifiers and countries come from the generated bank; timestamps have no zone,
+amounts are positive with two decimals, and transaction IDs use `T-YYYYMMDD-NNNN`.
+
+Daily export opens the bank read-only and reads only customers, accounts and
+counterparties. It never reads the answer key. A missing bank or invalid calendar
+date produces a clear error and nonzero exit. A date and the fixed seed determine
+the output, so rerunning a date overwrites its files with identical contents.
+Card purchases occur for most customers each day. Personal salaries arrive on
+the 1st and monthly direct debits on the 5th, 6th and 7th, matching the history.
+Business look-alikes do not receive personal salaries.
+
+A separate demo customer, excluded from all 27 historical scenarios by replaying
+the seeded selection, makes two cash deposits of GBP 8,000 to 9,999 each day.
+Across three consecutive daily files the cumulative counts are 2, 4 and 6,
+crossing the five-in-fourteen-days demo threshold on day three. These commands
+only export files; the later pipeline loads them and runs the rules.
+The replay must stay aligned with the generator's RNG draws; a test checks that
+the demo customer is absent from the actual scenario selection.
 
 The seed is fixed at `20261115`, and dates cover May–October 2026. There are
 500 customers and 600 accounts, with six months of salaries, bills and card
@@ -66,6 +97,9 @@ runtime. Logical dumps avoid relying on SQLite file layout.
 
 Run the offline acceptance checks with `python -m bank.test_generate` (standard
 library only), or `.venv\Scripts\python.exe -m pytest bank -q` if pytest is installed.
+Daily pytest checks use temporary databases and output directories, validate the
+CSV/control contract, identifiers, monthly activity, repeatability, unchanged
+database dump and the three-day pattern. They never write to real `incoming/`.
 They generate two temporary databases, compare complete logical dumps, and check
 schema, integrity, foreign keys, monthly coverage, fake names, labels and patterns.
 The full-dump comparison explicitly inspects the answer key for this acceptance

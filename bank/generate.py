@@ -1,14 +1,24 @@
 """Create a reproducible, entirely fictional bank using only the standard library."""
 
 from contextlib import closing
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
+import argparse
+import csv
+import json
 import random
+import re
 import sqlite3
 
 
 SEED = 20261115
 DB_PATH = Path(__file__).resolve().with_name("bank.db")
+INCOMING_PATH = DB_PATH.parent.parent / "incoming"
+BATCH_COLUMNS = (
+    "txn_id", "account_id", "customer_id", "timestamp", "direction",
+    "amount_gbp", "channel", "counterparty_account", "counterparty_country", "reference",
+)
 TYPOLOGIES = ("structuring", "rapid_pass_through", "fan_in_fan_out", "high_risk_link")
 
 SCHEMA = """
@@ -203,6 +213,105 @@ def generate(path=DB_PATH):
     return counts
 
 
+def daily_demo_customer():
+    """Replay generate's RNG up to scenario selection, without reading the key.
+
+    Keep these draws aligned with generate; the selection test guards this.
+    """
+    rng = random.Random(SEED)
+    for _ in range(500):
+        income = rng.randrange(24000, 96001, 1200)
+        rng.choice(range(5))
+        rng.choices(("Low", "Medium", "High"), weights=(80, 17, 3))
+        rng.randrange(1500)
+        for _ in range(6 * 14):
+            rng.randrange(4, 10)
+            rng.randint(500, max(501, income // 60))
+    scenarios = [(TYPOLOGIES[i % 4], i < 15) for i in range(27)]
+    rng.shuffle(scenarios)
+    planted = set(rng.sample(range(1, 501), 27))
+    return f"CU-{next(n for n in range(1, 501) if n not in planted):04d}"
+
+
+def parse_day(value):
+    """Accept only an actual calendar date written YYYY-MM-DD."""
+    try:
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", value):
+            raise ValueError
+        return date.fromisoformat(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError("day must be a valid date in YYYY-MM-DD format") from None
+
+
+def generate_day(day, path=DB_PATH, out=INCOMING_PATH):
+    """Export one deterministic batch using only read-only bank reference data."""
+    day = parse_day(day) if isinstance(day, str) else day
+    path = Path(path).resolve()
+    if not path.is_file():
+        raise FileNotFoundError("Bank database missing; run python bank/generate.py first.")
+    with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
+        customers = conn.execute(
+            "SELECT a.account_id, c.customer_id, c.declared_income, c.occupation "
+            "FROM accounts a JOIN customers c USING(customer_id) "
+            "WHERE a.type='current' AND a.status='active' ORDER BY a.account_id"
+        ).fetchall()
+        parties = dict(conn.execute("SELECT counterparty_account, country FROM counterparties"))
+    rng = random.Random(f"{SEED}:{day.isoformat()}")
+    rows = []
+
+    def payment(account, customer, cents, direction, channel, party, hour, reference):
+        rows.append(dict(zip(BATCH_COLUMNS, (
+            f"T-{day:%Y%m%d}-{len(rows) + 1:04d}", account, customer,
+            f"{day.isoformat()}T{hour:02d}:{rng.randrange(60):02d}:00", direction,
+            f"{Decimal(cents) / 100:.2f}", channel, party, parties[party], reference,
+        ))))
+
+    demo = daily_demo_customer()
+    for account, customer, income, occupation in customers:
+        if rng.random() < 0.8:
+            payment(account, customer, rng.randint(500, max(501, int(income) // 60)),
+                    "out", "card", f"FAKE-EXT-{rng.randrange(4, 10):03d}", 15, "card purchase")
+        business = occupation in ("Synthetic cash market business", "Synthetic equipment dealer",
+                                  "Synthetic community subscription club")
+        if day.day == 1 and not business:
+            payment(account, customer, round(income / 12 * 100), "in", "transfer",
+                    "FAKE-EXT-000", 9, "salary")
+        if 5 <= day.day <= 7:
+            bill = day.day - 5
+            payment(account, customer, round(income / 12 * (0.10 + bill * 0.04) * 100),
+                    "out", "direct_debit", f"FAKE-EXT-{bill + 1:03d}", 9, "monthly bill")
+        if customer == demo:
+            for hour in (10, 14):
+                payment(account, customer, rng.randint(800000, 999900), "in", "cash",
+                        "FAKE-CASH-BRANCH", hour, "cash deposit")
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    csv_path = out / f"transactions_{day.isoformat()}.csv"
+    with csv_path.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=BATCH_COLUMNS)
+        writer.writeheader()
+        writer.writerows(rows)
+    control = dict(batch_date=day.isoformat(), file=csv_path.name, row_count=len(rows),
+                   total_amount_gbp=float(sum((Decimal(r["amount_gbp"]) for r in rows), Decimal(0))))
+    csv_path.with_suffix(".control.json").write_text(json.dumps(control, indent=2) + "\n", encoding="utf-8")
+    return control
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--day", type=parse_day, help="export a daily batch (YYYY-MM-DD)")
+    parser.add_argument("--out", type=Path, default=INCOMING_PATH, help="daily batch output directory")
+    args = parser.parse_args()
+    if args.day is not None:
+        try:
+            control = generate_day(args.day, out=args.out)
+        except FileNotFoundError as error:
+            parser.exit(1, f"{error}\n")
+        print(f"Daily batch: {control['file']} | rows: {control['row_count']}")
+    else:
+        summary = generate()
+        print("Synthetic bank:", " | ".join(f"{key}: {value}" for key, value in summary.items()))
+
+
 if __name__ == "__main__":
-    summary = generate()
-    print("Synthetic bank:", " | ".join(f"{key}: {value}" for key, value in summary.items()))
+    main()
