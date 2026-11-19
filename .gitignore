@@ -223,7 +223,7 @@ __marimo__/
 *.db
 incoming/
 processed/
-cases/
+/cases/
 usage/*.jsonl
 tools/audit.jsonl
 usage/.state/

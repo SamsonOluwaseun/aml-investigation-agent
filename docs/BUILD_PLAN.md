@@ -101,8 +101,8 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 ### 11. Publish and present
 **Owner:** You · **Design:** Step 10 and Presenting it to your community
 
-- [ ] README setup steps tested on a clean clone
-- [ ] Sample case files, scorecard and usage log committed
-- [ ] Demo GIF or recording
-- [ ] CONTRIBUTING.md
-- [ ] Repo topics added
+- [x] README setup steps tested on a clean clone (2026-11-19: fresh clone of the branch, steps 1 to 10 except the Claude Code step; 108 tests passed)
+- [x] Sample case files, scorecard and usage log committed (`docs/samples/`, `eval/scorecard.md`)
+- [x] Demo GIF or recording (`docs/demo/demo.gif`, rebuilt with `scripts/make_demo_gif.py`)
+- [x] CONTRIBUTING.md
+- [ ] Repo topics added (needs the repo owner: the `gh` account here has no admin rights; command in `docs/OVERNIGHT_LOG.md`)

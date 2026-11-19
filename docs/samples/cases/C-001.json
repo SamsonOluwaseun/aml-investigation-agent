@@ -1,0 +1,105 @@
+{
+  "case_id": "C-001",
+  "customer_id": "CU-0072",
+  "risk_rating": "High",
+  "typologies": [
+    "high_risk_link"
+  ],
+  "summary": "A low-risk salaried administrator made two one-off transfers totalling about GBP 34.7k, 2 days apart, to two new counterparties that are both exact sanctions-list matches. One payee also has adverse media about laundering, dated 9 days before the payment, and the other is in high-risk country XZ. Apart from these transfers the account is routine and matches the declared salary, but nothing on file explains the purpose of the payments or where the funds came from.",
+  "evidence": [
+    {
+      "claim": "On 2026-10-10 the account sent GBP 23,627.82 to FAKE Nebula Trading (GB), a new counterparty paid only once. It is an exact sanctions-list match (similarity 1.0) and has an exact adverse media match dated 2026-10-01 describing a trading entity investigated for laundering.",
+      "source": [
+        "T-0054092",
+        "FAKE-EXT-098",
+        "SL-1",
+        "AM-1"
+      ]
+    },
+    {
+      "claim": "On 2026-10-12 the account sent GBP 11,081.60 to FAKE Counterparty 099 in high-risk country XZ, a new counterparty paid only once. It is an exact sanctions-list match (similarity 1.0). No adverse media was found.",
+      "source": [
+        "T-0054093",
+        "FAKE-EXT-099",
+        "SL-2"
+      ]
+    },
+    {
+      "claim": "The two transfers total GBP 34,709.42. That is 91% of the GBP 37,998.79 paid out in the alert window, about 4.6 times the monthly credit and 39% of declared annual income of GBP 90,000.",
+      "source": [
+        "T-0054092",
+        "T-0054093",
+        "FAKE-AC-0072-1",
+        "CU-0072"
+      ]
+    },
+    {
+      "claim": "Money paid out in the alert window was about 5 times money received. The only credit was one GBP 7,500.00 transfer from FAKE-EXT-000.",
+      "source": [
+        "T-0007759",
+        "FAKE-AC-0072-1"
+      ]
+    },
+    {
+      "claim": "The earlier window (2026-08-30 to 2026-09-28) had GBP 3,295.71 paid out, with no large transfers, no non-GB counterparties and no new counterparties. Money paid out rose about 11.5 times, and the two flagged transfers account for all of the increase.",
+      "source": [
+        "T-0007741",
+        "T-0007758",
+        "FAKE-AC-0072-1"
+      ]
+    },
+    {
+      "claim": "Supports an innocent reading: FAKE-EXT-000 paid in GBP 7,500.00 a month, 6 times from 2026-05-01 to 2026-10-01. That matches the declared GBP 90,000 income and looks like a salary.",
+      "source": [
+        "FAKE-EXT-000",
+        "T-0007741",
+        "T-0007759",
+        "CU-0072"
+      ]
+    },
+    {
+      "claim": "Supports an innocent reading: apart from the two transfers, activity is routine. There were 3 regular direct debits to long-standing GB payees and small GB card payments of GBP 5.94 to 14.66.",
+      "source": [
+        "T-0007760",
+        "T-0007761",
+        "T-0007762",
+        "T-0007776",
+        "FAKE-EXT-001",
+        "FAKE-EXT-002",
+        "FAKE-EXT-003"
+      ]
+    },
+    {
+      "claim": "Supports an innocent reading: the customer has a Low KYC risk rating and no screening matches on their own name. FAKE Counterparty 000 is only a close match (0.9) to a listed name, which is not a hit.",
+      "source": [
+        "CU-0072",
+        "SL-2",
+        "FAKE-EXT-000"
+      ]
+    },
+    {
+      "claim": "Data anomaly: counterparty last_seen dates of 2026-11-17 (after today, 2026-11-16) for FAKE-EXT-009 and 2026-11-16 for FAKE-EXT-006 were not checked against transactions.",
+      "source": [
+        "FAKE-EXT-009",
+        "FAKE-EXT-006"
+      ]
+    }
+  ],
+  "innocent_explanations": [
+    "The customer may have paid an invoice or made a one-off purchase from a trading business without knowing it was listed. The adverse media appeared only nine days before the payment.",
+    "The screening matches are on name only, so either payee could be a different entity that shares a listed name.",
+    "The transfers may have been paid from savings built up from salary (GBP 45,000 of credits over six months against about GBP 3,300 of monthly spending). This is an inference only, because no balance was returned."
+  ],
+  "gaps": [
+    "No purpose or payment reference for either flagged transfer, and no KYC information on why an administrator would deal with a trading entity or with country XZ.",
+    "Not known whether the sanctions entries carry secondary identifiers that confirm the payees are the listed parties.",
+    "No opening or closing balances and no source of funds or wealth on file for the roughly GBP 34.7k.",
+    "Not known whether either payment was held or blocked at screening, or whether both completed.",
+    "Activity with either payee after 2026-10-28 has not been checked.",
+    "Screening was not run on the routine GB direct debit and card payees.",
+    "Counterparty last_seen dates after or on today's date have not been reconciled with transactions."
+  ],
+  "suggested_action": "Escalate",
+  "status": "Draft for human review",
+  "saved_at": "2026-11-16T00:23:23+00:00"
+}
