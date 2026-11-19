@@ -1,0 +1,21 @@
+{
+  "enabledMcpjsonServers": ["aml-bank"],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp__aml-bank__.*",
+        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/usage/hook.py\"", "timeout": 30}]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/usage/hook.py\"", "timeout": 30}]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/usage/hook.py\"", "timeout": 30}]
+      }
+    ]
+  }
+}

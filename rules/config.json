@@ -1,0 +1,29 @@
+{
+  "notice": "DEMO VALUES, NOT REGULATORY",
+  "window_days": 30,
+  "history_days": 90,
+  "max_txn_ids": 50,
+  "risk_bands": {"High": 0.75, "Medium": 0.5},
+  "additional_typology_score": 0.05,
+  "structuring": {
+    "minimum_amount": 8000, "maximum_amount": 9999,
+    "minimum_count": 5, "span_days": 14,
+    "base_score": 0.78, "extra_deposit_score": 0.04,
+    "history_comparable_ratio": 0.8, "history_score_cap": 0.45
+  },
+  "rapid_pass_through": {
+    "minimum_credit": 5000, "minimum_ratio": 0.8, "hours": 48,
+    "outbound_channels": ["transfer"],
+    "base_score": 0.75, "ratio_weight": 0.5, "speed_weight": 0.1
+  },
+  "fan_in_fan_out": {
+    "minimum_parties": 10, "span_days": 7,
+    "excluded_parties": ["FAKE-CASH-BRANCH"],
+    "history_comparable_ratio": 0.8,
+    "base_score": 0.78, "extra_party_score": 0.02
+  },
+  "high_risk_link": {
+    "countries": ["XZ"], "sanctions_score": 0.98,
+    "screening_score": 0.85, "country_score": 0.8
+  }
+}

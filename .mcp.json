@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "aml-bank": {
+      "command": "python",
+      "args": ["tools/server.py"]
+    }
+  }
+}
