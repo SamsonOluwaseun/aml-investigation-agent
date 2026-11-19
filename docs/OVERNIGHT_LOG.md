@@ -2,7 +2,9 @@
 
 ## Summary
 
-**Finished.** Items 1 to 10 are built, reviewed and merged into `develop`. Item 11 was not started, as you asked. `main` is untouched (`9bacbb5`). The full suite passes on a clean `develop` checkout with no generated data: **105 tests passed**.
+**Update 2026-11-19:** item 11 (issue [#12](https://github.com/SamsonOluwaseun/aml-investigation-agent/issues/12)) is merged into `develop` as well, apart from the repo topics, which need the repo owner. See the item 11 entry at the end of the log.
+
+**Finished.** Items 1 to 10 are built, reviewed and merged into `develop`. Item 11 was not started overnight, as you asked. `main` is untouched (`9bacbb5`). The full suite passes on a clean `develop` checkout with no generated data: **105 tests passed**.
 
 ### Items completed
 
@@ -122,4 +124,15 @@ Listed in full in the next section. The ones most worth a look:
 - Review round 1: `streamlit run ui/app.py` crashed on `from ui.data import`, because only `ui/` is on the import path (reproduced in an isolated interpreter). It was fixed with a regression test. The success message now shows the stored time.
 - Review round 2 (after merge): one test needed the real `bank/bank.db`, so it failed on a clean clone. It's now self-contained and merged as `0c93e07`.
 - Verified in Streamlit's AppTest: the decision radio has no default; saving without a reason is refused; a saved row has the person, UTC time and suggested action; clicking `T-0054092` opens the transaction.
-- Decision: I did not use `--dangerously-skip-permissions` to let Antigravity run commands. It would have approved every tool with no limit. I recreated it byte for byte from the run output (it validates, and all 25 cited transactions exist). Copies of all three case files and the usage logs are kept outside the repo.
+- Decision: I did not use `--dangerously-skip-permissions` to let Antigravity run commands. It would have approved every tool with no limit.
+- Mistake: I deleted `cases/C-016.json` while clearing old outputs. I recreated it byte for byte from the run output (it validates, and all 25 cited transactions exist). Copies of all three case files and the usage logs are kept outside the repo.
+
+### Item 11: Publish and present, issue #12, merged (2026-11-19)
+
+- Branch `issue-12-publish`. Orchestrated by Claude Code, with Codex on the docs and Antigravity on the demo recording.
+- **Codex** wrote the full README quick start (every command checked against the argparse definitions), `CONTRIBUTING.md` and `docs/samples/README.md`. My review changes: kept the item 6 note in the status table, said the C-016 usage rows were not kept, added "never push to or merge into `main`", and allowed `planted_cases` in tests as well as `eval/`.
+- **Claude Code** added the samples: the three case files in `docs/samples/cases/` and the C-001 and C-019 usage rows in `docs/samples/usage.sample.jsonl`, with local transcript paths replaced by `<local transcript>`. The C-016 usage rows were never saved, so they are missing. `agent/tests/test_samples.py` checks that the case files validate and that the samples hold no local paths or answer-key IDs. `.gitignore` now ignores only the root `/cases/`, so the samples can be committed.
+- **Clean clone:** I cloned the pushed branch from GitHub and ran README steps 1 to 10, except the Claude Code step, to save tokens. The first try failed at `pip install` with `WinError 3`, because the deep scratchpad path plus streamlit's nested files passed Windows' 260-character limit. At a shorter path every step passed: 108 tests, the bank, rules, three batches with `--no-agent` (C-019 raised), the review screen health check, and the scorecard. The README now has a short-path tip for Windows.
+- **Antigravity** wrote `scripts/make_demo_gif.py`, which drives headless Edge or Chrome over the DevTools protocol and saves a five-frame GIF, plus `docs/demo/README.md` and offline tests. The first headless run stopped at once, because it tried a terminal command, which headless mode refuses. The retry told it to only read and write files. Review round 1 (Antigravity): my brief named tornado, but streamlit 1.67 no longer ships it, so it switched to `websockets` (which streamlit needs), imported lazily, and the log files are now closed so the temporary folder is removed. Fixes I made myself after round 1: JavaScript value setting didn't reach Streamlit, so the save step failed. The script now types through `Input.insertText` with focus emulation and presses Enter. I also hid the sidebar, which showed local file paths including the Windows username, and Streamlit's Deploy toolbar. I checked all five frames by eye. The source `bank.db` hash was unchanged.
+- **Repo topics: not done.** `gh repo edit --add-topic` returned HTTP 404, because `SamlyticsDS` has no admin rights. Run as the repo owner: `gh repo edit SamsonOluwaseun/aml-investigation-agent --add-topic aml,anti-money-laundering,ai-agents,claude-code,mcp,synthetic-data,llm,python,streamlit`
+- Tests: full suite 118 passed (105 before, plus 3 sample tests and 10 demo script tests).

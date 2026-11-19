@@ -27,7 +27,7 @@ Three principles hold the design together:
 
 ## Project status
 
-The build is complete through item 10. Item 11, Publish and present, is in progress. See [docs/DESIGN.md](docs/DESIGN.md) and [docs/BUILD_PLAN.md](docs/BUILD_PLAN.md).
+The build is complete: items 1 to 11 are done, apart from adding the repository topics and one interactive check of the agent. See [docs/DESIGN.md](docs/DESIGN.md) and [docs/BUILD_PLAN.md](docs/BUILD_PLAN.md).
 
 | Part | Folder | Status |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ The build is complete through item 10. Item 11, Publish and present, is in progr
 | Usage logging | `usage/` | Done (item 7) |
 | Daily batch pipeline | `pipeline/` | Done (item 8) |
 | Evaluation scorecard | `eval/` | Done (item 10). Sample in `eval/scorecard.md` |
-| Publish and present | `docs/` | In progress (item 11) |
+| Publish and present | `docs/`, `scripts/` | Done (item 11): tested setup steps, samples, demo GIF, CONTRIBUTING.md. Repo topics to add |
 
 ## Requirements
 
@@ -80,6 +80,8 @@ This step needs network access to download packages.
 ```bash
 pip install -r requirements.txt
 ```
+
+On Windows, clone into a short path (for example `C:\src`). Streamlit installs some deeply nested files, and `pip` fails with `WinError 3` if the full path passes 260 characters, unless Windows long path support is enabled.
 
 ### 4. Run the tests (offline)
 
