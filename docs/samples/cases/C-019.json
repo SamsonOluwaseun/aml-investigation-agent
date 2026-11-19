@@ -1,0 +1,116 @@
+{
+  "case_id": "C-019",
+  "customer_id": "CU-0001",
+  "risk_rating": "Medium",
+  "typologies": [
+    "structuring"
+  ],
+  "summary": "In three days a low-risk teacher paid six branch cash deposits into a previously cash-free account. Each was just under GBP 10,000, two were made each day, and together they total GBP 54,069.26, more than the customer's declared annual income. The cash has not moved on and the earlier account history looks like ordinary salary-and-bills use, but there is no source of funds on file. Four of the deposits are dated after the date the pack was prepared, so the data dates need checking first.",
+  "evidence": [
+    {
+      "claim": "6 branch cash deposits of GBP 8,182.53 to 9,773.88 between 2026-11-16 and 2026-11-18, totalling GBP 54,069.26, each under GBP 10,000, paid in to a new counterparty first seen 2026-11-16.",
+      "source": [
+        "T-20261116-0001",
+        "T-20261116-0002",
+        "T-20261117-0001",
+        "T-20261117-0002",
+        "T-20261118-0002",
+        "T-20261118-0003",
+        "FAKE-CASH-BRANCH"
+      ]
+    },
+    {
+      "claim": "Deposits were made two a day, around 10:30-10:45 and 14:15-14:25, giving daily totals of GBP 17,290.51 to 18,871.82. Each daily total would have been over GBP 10,000 if paid in at once.",
+      "source": [
+        "T-20261116-0001",
+        "T-20261116-0002",
+        "T-20261117-0001",
+        "T-20261117-0002",
+        "T-20261118-0002",
+        "T-20261118-0003"
+      ]
+    },
+    {
+      "claim": "The cash total of GBP 54,069.26 is about 116% of the declared annual income of GBP 46,800 for a Low-risk synthetic teacher. No cash business is indicated.",
+      "source": [
+        "CU-0001",
+        "FAKE-CASH-BRANCH"
+      ]
+    },
+    {
+      "claim": "Sharp break from baseline: the previous window (2026-09-20 to 2026-10-19) had no cash deposits. Its only credit was the GBP 3,900 transfer from FAKE-EXT-000, and the account has no other cash activity on record.",
+      "source": [
+        "T-0000091",
+        "FAKE-EXT-000",
+        "FAKE-AC-0001-1"
+      ]
+    },
+    {
+      "claim": "Innocent-leaning: the cash has stayed in the account. Outflows in the window were only GBP 37.02, made up of 7 small card payments, and no onward transfers were seen.",
+      "source": [
+        "T-0000104",
+        "T-0000105",
+        "T-0000106",
+        "T-0000107",
+        "T-0000108",
+        "T-20261118-0001",
+        "FAKE-AC-0001-1"
+      ]
+    },
+    {
+      "claim": "Innocent-leaning: before the alert the account looked like ordinary household use. A monthly GBP 3,900 credit from FAKE-EXT-000 matches the declared income at 12 a month, and there were 3 UK direct debits and small UK card spending, all with GB counterparties.",
+      "source": [
+        "FAKE-EXT-000",
+        "T-0000091",
+        "T-0000092",
+        "T-0000093",
+        "T-0000094",
+        "FAKE-EXT-001",
+        "FAKE-EXT-002",
+        "FAKE-EXT-003"
+      ]
+    },
+    {
+      "claim": "The window has no November 2026 credit from FAKE-EXT-000 and no direct debits to FAKE-EXT-001, -002 or -003 for 2026-11-05 to 11-07, although both appear at the start of each earlier month.",
+      "source": [
+        "FAKE-EXT-000",
+        "FAKE-EXT-001",
+        "FAKE-EXT-002",
+        "FAKE-EXT-003",
+        "FAKE-AC-0001-1"
+      ]
+    },
+    {
+      "claim": "Screening: no matches for the customer or the cash counterparty. 'FAKE Counterparty 000' is only a close match (similarity 0.9) to the listed 'FAKE Counterparty 099' (country XZ), not a hit. No adverse media for any of them.",
+      "source": [
+        "SL-2"
+      ]
+    },
+    {
+      "claim": "Data observation: 4 of the 6 triggering deposits, and card payment T-20261118-0001, are dated 2026-11-17 and 2026-11-18, which is after the pack date of 2026-11-16.",
+      "source": [
+        "T-20261117-0001",
+        "T-20261117-0002",
+        "T-20261118-0002",
+        "T-20261118-0003",
+        "T-20261118-0001"
+      ]
+    }
+  ],
+  "innocent_explanations": [
+    "One-off legitimate cash such as home savings, an inheritance or a private sale of a car or goods, paid in over several visits for convenience or because of branch handling limits.",
+    "Cash collected from family and paid in for a relative or a household event such as a wedding, funeral or house deposit.",
+    "The deposits may not be real or may be wrongly dated, since 4 of them are dated after the pack date."
+  ],
+  "gaps": [
+    "No source of funds or explanation for the cash on file.",
+    "The November 2026 salary-like credit from FAKE-EXT-000 and the 2026-11-05 to 11-07 direct debits are missing. This could be a change of job or bank, or a data gap.",
+    "It is not known what the funds are for or what leaves the account after 2026-11-18.",
+    "It is not known whether the customer has accounts or relationships elsewhere.",
+    "Branch records are not in the pack: which branch, CCTV, who made the deposits, and any staff concerns.",
+    "Transaction dates need checking against the pack date."
+  ],
+  "suggested_action": "Request more information",
+  "status": "Draft for human review",
+  "saved_at": "2026-11-16T00:32:40+00:00"
+}
