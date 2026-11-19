@@ -142,3 +142,4 @@ Listed in full in the next section. The ones most worth a look:
 - Removed the extra worktrees (`aml-develop`, `aml-work`, `aml-ui`, `aml-eval`, `aml-pub`) and deleted the local `wip-tools` branch, after checking that none had uncommitted work and that `develop` contains everything on `wip-tools`. The main checkout is now on `develop`.
 - `SamlyticsDS` now has write access. Closed issues #2, #3, #4, #5, #6, #8, #9, #10 and #11 with the merge commit for each. Left #7 open (interactive `/investigate` check) and #12 open (repo topics). Topics still return HTTP 404 with write access, because they need admin rights.
 - Opened a pull request from `develop` to `main` for review. It is not merged.
+- Repo topics added by Oluwaseun on the website (llm, mcp, python, streamlit, streamlit-application, streamlit-dashboard, streamlit-webapp, synthetic-data). Item 11 is complete and #12 is closed. Only #7 (interactive `/investigate` check) is still open.

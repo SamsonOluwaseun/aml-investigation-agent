@@ -105,4 +105,4 @@ Details for every item are in [DESIGN.md](DESIGN.md).
 - [x] Sample case files, scorecard and usage log committed (`docs/samples/`, `eval/scorecard.md`)
 - [x] Demo GIF or recording (`docs/demo/demo.gif`, rebuilt with `scripts/make_demo_gif.py`)
 - [x] CONTRIBUTING.md
-- [ ] Repo topics added (needs the repo owner: the `gh` account here has no admin rights; command in `docs/OVERNIGHT_LOG.md`)
+- [x] Repo topics added (by the repo owner on 2026-11-19)
